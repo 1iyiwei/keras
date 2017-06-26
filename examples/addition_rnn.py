@@ -182,6 +182,7 @@ for iteration in range(1, 200):
     model.fit(x_train, y_train,
               batch_size=BATCH_SIZE,
               epochs=1,
+              verbose=False,
               validation_data=(x_val, y_val))
     # Select 10 samples from the validation set at random so we can visualize
     # errors.
@@ -195,8 +196,10 @@ for iteration in range(1, 200):
         print('Q', q[::-1] if INVERT else q)
         print('T', correct)
         if correct == guess:
-            print(colors.ok + '☑' + colors.close, end=" ")
+            #print(colors.ok + '☑' + colors.close, end=" ")
+            print('Y', end=" ")
         else:
-            print(colors.fail + '☒' + colors.close, end=" ")
+            #print(colors.fail + '☒' + colors.close, end=" ")
+            print('N', end=" ")
         print(guess)
         print('---')
