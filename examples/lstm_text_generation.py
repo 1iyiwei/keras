@@ -18,16 +18,21 @@ from keras.optimizers import RMSprop
 from keras.utils.data_utils import get_file
 import numpy as np
 import random
-import sys
+import sys, string
 
 path = get_file('nietzsche.txt', origin='https://s3.amazonaws.com/text-datasets/nietzsche.txt')
 text = open(path).read().lower()
+text = ''.join(list(filter(lambda x: x in string.printable, text)))
 print('corpus length:', len(text))
 
 chars = sorted(list(set(text)))
 print('total chars:', len(chars))
 char_indices = dict((c, i) for i, c in enumerate(chars))
 indices_char = dict((i, c) for i, c in enumerate(chars))
+
+# make sure everything can be printed
+print('char set:', chars)
+#print('char set:', ''.join(chars).encode(sys.stdout.encoding, errors='replace'))
 
 # cut the text in semi-redundant sequences of maxlen characters
 maxlen = 40
@@ -74,7 +79,7 @@ for iteration in range(1, 60):
     print('-' * 50)
     print('Iteration', iteration)
     model.fit(X, y,
-              batch_size=128,
+              batch_size=16,
               epochs=1)
 
     start_index = random.randint(0, len(text) - maxlen - 1)
